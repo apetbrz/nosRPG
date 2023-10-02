@@ -6,7 +6,7 @@ import Objects.*;
 
 import java.util.ArrayList;
 
-public abstract class Unit {
+public class Unit {
     String name;
     String race;
     String description;

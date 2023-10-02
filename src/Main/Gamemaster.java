@@ -7,17 +7,16 @@ import Enums.PrefabRegion;
 import World.*;
 
 public class Gamemaster {
-    //TODO: VARS
     ArrayList<Region> map;
     Player player;
     public Gamemaster(){
-        //TODO: INIT VARS
         map = new ArrayList<Region>();
         map.add(PrefabRegion.TEST_AREA.reg);
-        play();
+        player = new Player();
+        Unit dummy = new Unit();
     }
     public void play(){
-        renderRegion(0);
+
     }
     public void renderRegion(int index){
         Room[][] r = map.get(index).getRooms();
