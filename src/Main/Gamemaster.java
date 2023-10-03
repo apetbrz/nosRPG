@@ -1,33 +1,28 @@
 package Main;
 
-import java.util.ArrayList;
-
-import Creatures.*;
+import World.Creatures.*;
 import Enums.PrefabRegion;
-import World.*;
 
 public class Gamemaster {
-    ArrayList<Region> map;
+    GameModel game;
     Player player;
     public Gamemaster(){
-        map = new ArrayList<Region>();
-        map.add(PrefabRegion.TEST_AREA.reg);
-        player = new Player();
-        Unit dummy = new Unit();
-    }
-    public void play(){
+        game = new GameModel();
+        game.addRegion(PrefabRegion.TEST_AREA.reg);
+        player = new Player("player");
 
     }
-    public void renderRegion(int index){
-        Room[][] r = map.get(index).getRooms();
-        for(int i = 0; i < r.length; i++){
-            for(int j = 0; j < r[i].length; j++){
-                System.out.print("ROOM " + i + j + ": " + r[i][j]);
-            }
-            System.out.println();
-        }
-    }
-    public void enterRoom(Room r){
+    public void play(){
+        Unit dummy1 = new Unit();
+        Unit dummy2 = new Unit();
+        Unit dummy3 = new Unit();
+        Combat testFight = new Combat(new Unit[]{player, dummy1, dummy2, dummy3});
+        System.out.println(testFight);
+        System.out.println(player._stats.DEX.getBase());
+        System.out.println(dummy1._stats.DEX.getBase());
+        player._stats.DEX.add(1);
+        System.out.println(player._stats.DEX.getBase());
+        System.out.println(dummy1._stats.DEX.getBase());
 
     }
 

@@ -1,6 +1,6 @@
 package Objects;
 
-import Creatures.Unit;
+import World.Creatures.Unit;
 import Mechanics.StatusEffect;
 
 public class Item {

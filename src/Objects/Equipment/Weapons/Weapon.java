@@ -1,4 +1,4 @@
-package Equipment.Weapons;
+package Objects.Equipment.Weapons;
 
 import Enums.WeaponProperties;
 import Mechanics.StatusEffect;
