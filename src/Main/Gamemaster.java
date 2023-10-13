@@ -1,29 +1,43 @@
 package Main;
 
+import Enums.Terrain;
+import Mechanics.Combat;
+import Mechanics.WeaponAction;
+import Mechanics.d;
+import Objects.Equipment.Weapons.MeleeWeapon;
 import World.Creatures.*;
-import Enums.PrefabRegion;
+
+import java.util.ArrayList;
 
 public class Gamemaster {
-    GameModel game;
-    Player player;
+    GameModel _game;
+    GameRenderer _renderer;
+    Player _player;
+
     public Gamemaster(){
-        game = new GameModel();
-        game.addRegion(PrefabRegion.TEST_AREA.reg);
-        player = new Player("player");
+        _game = new GameModel();
+        _renderer = new GameRenderer();
+        _player = new Player("player");
+        _game.addPlayer(_player);
+        MeleeWeapon testSword = new MeleeWeapon("Training Sword",
+                "A basic wooden sword, for training.",
+                1,
+                new WeaponAction[]{
+                        new WeaponAction("Slash", new d[]{new d(6)}, 1),
+                        new WeaponAction("Stab", new d[]{new d(8)}),
+                        new WeaponAction("Hilt", new d[]{new d(4)}, 2)
+                        });
+        _game.getPlayer().equip(testSword);
+        _game.getCurrentRoom().addUnit(new Unit("Dummy"));
 
     }
     public void play(){
-        Unit dummy1 = new Unit();
-        Unit dummy2 = new Unit();
-        Unit dummy3 = new Unit();
-        Combat testFight = new Combat(new Unit[]{player, dummy1, dummy2, dummy3});
-        System.out.println(testFight);
-        System.out.println(player._stats.DEX.getBase());
-        System.out.println(dummy1._stats.DEX.getBase());
-        player._stats.DEX.add(1);
-        System.out.println(player._stats.DEX.getBase());
-        System.out.println(dummy1._stats.DEX.getBase());
+        iterate();
 
     }
+    public void iterate(){
+        //TODO: MAP MOVEMENT HERE
 
+        _game.iterate();
+    }
 }

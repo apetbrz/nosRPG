@@ -5,7 +5,8 @@ public enum Terrain {
     FOREST,
     SWAMP,
     DUNGEON,
-    DUNGEON_SEWER;
+    DUNGEON_SEWER,
+    TESTING_PLANE;
     public boolean difficult = false;
     public LightLevel lightLevel = LightLevel.LIT;
 }

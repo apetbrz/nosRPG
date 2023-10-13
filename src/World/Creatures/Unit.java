@@ -2,8 +2,10 @@ package World.Creatures;
 
 import Enums.Alliance;
 import Enums.StatType;
+import Lang.Toolbox;
 import Mechanics.*;
 import Objects.*;
+import Objects.Equipment.Weapons.Unarmed;
 
 import java.util.ArrayList;
 
@@ -11,8 +13,11 @@ public class Unit {
     String _name;
     String _race;
     String _description;
+    boolean _isPlayer;
+    boolean _isAlive = true;
     Alliance _team;
-    int _health;
+    int _maxHealth;
+    int _currentHealth;
     public StatSheet _stats;
     ArrayList<StatusEffect> _statuses;
     ArrayList<Modifier> _modifiers;
@@ -22,27 +27,31 @@ public class Unit {
     d d20 = new d(20);
 
     public Unit(){
-        _name = "DEFAULT_UNIT";
-        _race = "DEFAULT_RACE";
-        _description = "DEFAULT_UNIT";
+        _name = Toolbox.DEFAULT_TEXT+this.getClass().getName();
+        _race = Toolbox.DEFAULT_TEXT+this.getClass().getName();
+        _description = Toolbox.DEFAULT_TEXT+this.getClass().getName();
         _team = Alliance.NEUTRAL;
-        _health = 10;
+        _maxHealth = 10;
+        _currentHealth = 10;
         _stats = new StatSheet();
         _statuses = new ArrayList<StatusEffect>();
         _modifiers = new ArrayList<Modifier>();
         _inv = new Inventory();
-        _mainHand = null;
+        _mainHand = new Unarmed();
         _offHand = null;
     }
-    public Unit(String name, String race, String desc, Alliance team, int health){
+    public Unit(String name, String race, String desc, Alliance team, int maxHealth){
         _name = name;
         _race = race;
         _description = desc;
         _team = team;
-        _health = health;
+        _maxHealth = maxHealth;
+        _currentHealth = maxHealth;
         _stats = new StatSheet();
+        _statuses = new ArrayList<StatusEffect>();
+        _modifiers = new ArrayList<Modifier>();
         _inv = new Inventory();
-        _mainHand = null;
+        _mainHand = new Unarmed();
         _offHand = null;
     }
     public Unit(String n){
@@ -100,7 +109,19 @@ public class Unit {
     }
 
     public void damage(int value){
-        _health -= value;
+        _currentHealth -= value;
+        if(_currentHealth <= 0){
+            _currentHealth = 0;
+            die();
+        }
+    }
+
+    private void die() {
+        Toolbox.print(_name + " died!");
+        _isAlive = false;
+    }
+    public boolean isAlive(){
+        return _isAlive;
     }
 
     public Stat getStat(StatType statType){
@@ -110,8 +131,29 @@ public class Unit {
     public int getModifier(StatType statType){
         return _stats.getStatModifier(statType);
     }
+    public boolean isPlayer(){
+        return _isPlayer;
+    }
 
     public String toString(){
         return _name;
+    }
+
+    public int getMaxHealth() {
+        return _maxHealth;
+    }
+    public int getCurrentHealth(){
+        return _currentHealth;
+    }
+
+    public Item getMainHand() {
+        return _mainHand;
+    }
+    public void equip(Item item){
+        _mainHand = item;
+    }
+
+    public boolean isDead() {
+        return !_isAlive;
     }
 }

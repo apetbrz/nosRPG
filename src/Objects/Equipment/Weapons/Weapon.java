@@ -2,29 +2,42 @@ package Objects.Equipment.Weapons;
 
 import Enums.WeaponProperties;
 import Mechanics.StatusEffect;
+import Mechanics.WeaponAction;
 import Mechanics.d;
 import Objects.Item;
 
 public class Weapon extends Item {
     d attack;
     WeaponProperties[] properties;
-    StatusEffect[] coating;
-    WeaponClass type;
+    WeaponAction[] _weaponActions;
+    private final WeaponAction DEFAULT_ACTION = new WeaponAction("Struggle", new d[]{new d(4)});
+    //StatusEffect[] coating; //TODO: replace StatusEffect[] with Coating object
+    WeaponClass _type;
     public Weapon(){
         super();
-        type = WeaponClass.MELEE;
+        _weaponActions = new WeaponAction[]{DEFAULT_ACTION};
     }
-    public Weapon(String n, String d, float w, WeaponClass t){
+    public Weapon(String name, String desc, float weight, WeaponClass type){
         super();
-        type = t;
+        _type = type;
+        _weaponActions = new WeaponAction[]{DEFAULT_ACTION};
     }
-    public Weapon(String n, String d, float w, WeaponClass t, StatusEffect[] c){
-        super();
-        type = t;
-        coating = c;
-    }
+
     public int damage(){
-        return 0;
+        return damage(0);
+    }
+    public int damage(int actionChoice){
+        return _weaponActions[actionChoice].roll();
+    }
+    public String actionsToString(){
+        String output = "";
+        int count = 1;
+        for(WeaponAction action : _weaponActions){
+            output += "[" + count++ + ": ";
+            output += action;
+            output += "]\n";
+        }
+        return output;
     }
     public StatusEffect[] attackEffectSelf(){
         return new StatusEffect[]{};

@@ -4,22 +4,22 @@ import World.Creatures.Unit;
 import Mechanics.StatusEffect;
 
 public class Item {
-    String name;
-    String description;
-    float weight;
-    Unit holder;
+    String _name;
+    String _description;
+    float _weight;
+    Unit _holder;
     public Item(){
-        name = "DEFAULT_NAME";
-        description = "DEFAULT_DESCRIPTION";
-        weight = 0.0f;
+        _name = "DEFAULT_NAME";
+        _description = "DEFAULT_DESCRIPTION";
+        _weight = 0.0f;
     }
-    public Item(String n, String d, float w){
-        name = n;
-        description = d;
-        weight = w;
+    public Item(String name, String desc, float weight){
+        _name = name;
+        _description = desc;
+        _weight = weight;
     }
     public void equip(Unit u){
-        holder = u;
+        _holder = u;
     }
     public int damage(){
         return 0;
@@ -31,10 +31,10 @@ public class Item {
         return new StatusEffect[]{};
     }
     public String toString(){
-        return name;
+        return _name;
     }
 
     public String getDescription(){
-        return description;
+        return _description;
     }
 }
