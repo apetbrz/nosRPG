@@ -7,8 +7,6 @@ import Mechanics.d;
 import Objects.Equipment.Weapons.MeleeWeapon;
 import World.Creatures.*;
 
-import java.util.ArrayList;
-
 public class Gamemaster {
     GameModel _game;
     GameRenderer _renderer;
@@ -17,6 +15,7 @@ public class Gamemaster {
     public Gamemaster(){
         _game = new GameModel();
         _renderer = new GameRenderer();
+        _renderer.initialize(_game);
         _player = new Player("player");
         _game.addPlayer(_player);
         MeleeWeapon testSword = new MeleeWeapon("Training Sword",

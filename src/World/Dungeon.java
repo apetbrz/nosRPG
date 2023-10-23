@@ -1,19 +1,27 @@
 package World;
 
+
 public class Dungeon {
     private Room[][] _rooms;
+    private int _rows;
+    private int _columns;
     private int _spawnX;
     private int _spawnY;
 
-    public Dungeon(int size){
-        _rooms = new Room[size][size];
-        generateDungeon(size);
+    public Dungeon(int rows, int columns){
+        _rooms = new Room[rows][columns];
+        _rows = rows;
+        _columns = columns;
 
+        generateDungeon(_rows,_columns);
+    }
+    public Dungeon(int size){
+        this(size,size);
     }
 
-    private void generateDungeon(int size){
-        for(int i = 0; i < size - 1; i++){
-            for(int j = 0; j < size - 1; j++){
+    private void generateDungeon(int rows, int columns){
+        for(int i = 0; i < rows - 1; i++){
+            for(int j = 0; j < columns - 1; j++){
                 _rooms[i][j] = new Room();
             }
         }
@@ -28,5 +36,4 @@ public class Dungeon {
     public Room[][] getRooms() {
         return _rooms;
     }
-
 }
