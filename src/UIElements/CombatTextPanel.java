@@ -7,7 +7,7 @@ import java.awt.*;
 public class CombatTextPanel extends JTextArea {
     private GridBagConstraints c;
     public CombatTextPanel(){
-        super("THIS WILL BE COMBAT TEXT",15,25);
+        super("THIS WILL BE COMBAT TEXT",25,25);
         this.setBorder(new MatteBorder(5,5,5,5,Color.BLACK));
         this.setEditable(false);
         initializeConstraints();
@@ -19,9 +19,9 @@ public class CombatTextPanel extends JTextArea {
         c.insets = new Insets(0,5,0,10);
         c.fill = GridBagConstraints.BOTH;
         c.anchor = GridBagConstraints.CENTER;
-        c.weightx = 0.5;
-        c.weighty = 0.5;
-        c.gridheight = 1;
+        c.weightx = 0.7;
+        c.weighty = 1;
+        c.gridheight = 2;
         c.gridwidth = 1;
     }
     public GridBagConstraints getC(){

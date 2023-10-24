@@ -1,39 +1,56 @@
 package World;
 
 
+import Enums.Direction;
+import World.Creatures.Player;
+import World.Prefabs.RoomGenerator;
+import org.omg.CORBA.VM_CUSTOM;
+
 public class Dungeon {
-    private Room[][] _rooms;
-    private int _rows;
-    private int _columns;
-    private int _spawnX;
-    private int _spawnY;
+    private DungeonMap _dungeonMap;
+    private RoomGenerator _generator;
 
     public Dungeon(int rows, int columns){
-        _rooms = new Room[rows][columns];
-        _rows = rows;
-        _columns = columns;
-
-        generateDungeon(_rows,_columns);
+        this(rows,columns,true);
     }
-    public Dungeon(int size){
-        this(size,size);
-    }
-
-    private void generateDungeon(int rows, int columns){
-        for(int i = 0; i < rows - 1; i++){
-            for(int j = 0; j < columns - 1; j++){
-                _rooms[i][j] = new Room();
-            }
+    public Dungeon(int rows, int columns, boolean generate){
+        _dungeonMap = new DungeonMap(rows, columns);
+        _generator = new RoomGenerator(1);
+        if(generate){
+            Room[][] generatedDungeon = _generator.generate(rows,columns);
+            fillRooms(generatedDungeon,0,0,columns,rows,false);
         }
-        _spawnX = 0;
-        _spawnY = 0;
     }
 
-    public int[] getSpawn() {
-        return new int[]{_spawnY,_spawnX};
+    public void addRoom(Room newRoom){
+        this.addRoom(newRoom, 0, 0);
+    }
+    public void addRoom(Room newRoom, int x, int y){
+        _dungeonMap.addRoom(newRoom, x, y);
+    }
+    public void addRoom(Room newRoom, int x, int y, Direction[] directions){
+        _dungeonMap.addRoom(newRoom, x, y, directions);
+    }
+    public void fillRooms(Room[][] newRooms, int x1, int y1, int x2, int y2, boolean replace){
+        _dungeonMap.fillRooms(newRooms,x1,y1,x2,y2,replace);
+    }
+    public void fillRooms(Room[][] newRooms, int x1, int y1, int x2, int y2){
+        _dungeonMap.fillRooms(newRooms,x1,y1,x2,y2,false);
     }
 
-    public Room[][] getRooms() {
-        return _rooms;
+    public void connectRooms(int x, int y, Direction[] directions){
+        _dungeonMap.connectRoom(x,y,directions);
+    }
+
+    public Room getSpawn(){
+        return _dungeonMap.getSpawn();
+    }
+
+    public Room[][] getRawMap() {
+        return _dungeonMap.getRooms();
+    }
+
+    public void setSpawn(int x, int y) {
+        _dungeonMap.setSpawn(x,y);
     }
 }

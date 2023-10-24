@@ -34,7 +34,7 @@ public class PlayerHUDPanel extends JPanel {
         c = new GridBagConstraints();
         c.gridx = 0;
         c.gridy = 0;
-        c.gridwidth = 3;
+        c.gridwidth = 2;
         c.weightx = 0.5;
         c.weighty = 0.5;
         c.fill = GridBagConstraints.BOTH;
