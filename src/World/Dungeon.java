@@ -7,6 +7,7 @@ import World.Prefabs.RoomGenerator;
 import org.omg.CORBA.VM_CUSTOM;
 
 public class Dungeon {
+    private String _name;
     private DungeonMap _dungeonMap;
     private RoomGenerator _generator;
 
@@ -42,15 +43,19 @@ public class Dungeon {
         _dungeonMap.connectRoom(x,y,directions);
     }
 
-    public Room getSpawn(){
-        return _dungeonMap.getSpawn();
-    }
-
     public Room[][] getRawMap() {
         return _dungeonMap.getRooms();
     }
-
     public void setSpawn(int x, int y) {
         _dungeonMap.setSpawn(x,y);
+    }
+    public Room getSpawn(){
+        return _dungeonMap.getSpawn();
+    }
+    public void setName(String name) {
+        _name = name;
+    }
+    public String getName() {
+        return _name;
     }
 }

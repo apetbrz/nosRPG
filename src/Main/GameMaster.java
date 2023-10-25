@@ -9,6 +9,8 @@ import World.Prefabs.PrefabDungeons;
 import World.Prefabs.PrefabWeapons;
 import World.Room;
 
+import java.util.ArrayList;
+
 public class GameMaster {
     GameModel _game;
     GameRenderer _renderer;
@@ -47,5 +49,9 @@ public class GameMaster {
 
     public Room[][] getMap(){
         return _game.getDungeon().getRawMap();
+    }
+
+    public ArrayList<Unit> getVisibleUnits() {
+        return _game.getCurrentRoom().getUnitsInRoom();
     }
 }

@@ -57,7 +57,7 @@ public class PlayerInputPanel extends JPanel {
     public void initializeConstraints(){
         c = new GridBagConstraints();
         c.gridx = 0;
-        c.gridy = 3;
+        c.gridy = 2;
         c.gridwidth = 2;
         c.weightx = 1;
         c.weighty = 1;
