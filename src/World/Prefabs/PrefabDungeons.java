@@ -48,6 +48,7 @@ public class PrefabDungeons {
         dungeon.setSpawn(0,0);
 
         dungeon.getRawMap()[0][0].addUnit(new Unit("Dummy"));
+        dungeon.getRawMap()[3][3].addUnit(PrefabUnits.generate("Goblin"));
 
         return dungeon;
     }

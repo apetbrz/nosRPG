@@ -10,21 +10,21 @@ import Objects.Equipment.Weapons.Unarmed;
 import java.util.ArrayList;
 
 public class Unit {
-    String _name;
-    String _race;
-    String _description;
-    boolean _isPlayer;
-    boolean _isAlive = true;
-    Alliance _team;
-    int _maxHealth;
-    int _currentHealth;
-    public StatSheet _stats;
-    ArrayList<StatusEffect> _statuses;
-    ArrayList<Modifier> _modifiers;
-    Inventory _inventory;
-    Item _mainHand;
-    Item _offHand;
-    d d20 = new d(20);
+    private String _name;
+    private String _race;
+    private String _description;
+    private boolean _isPlayer = false;
+    private boolean _isAlive = true;
+    private Alliance _team;
+    private int _maxHealth;
+    private int _currentHealth;
+    private StatSheet _stats;
+    private ArrayList<StatusEffect> _statuses;
+    private ArrayList<Modifier> _modifiers;
+    private Inventory _inventory;
+    private Item _mainHand;
+    private Item _offHand;
+    private d d20 = new d(20);
 
     public Unit(){
         _name = Toolbox.DEFAULT_TEXT+this.getClass().getName();
@@ -58,6 +58,10 @@ public class Unit {
         this();
         _name = n;
     }
+    public Unit(String n, boolean isPlayer){
+        this(n);
+        if(isPlayer) assignPlayer();
+    }
 
     public void initializeStats(int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma, int armorClass){
         _stats.STR.set(strength);
@@ -69,6 +73,14 @@ public class Unit {
         _stats.AC.set(armorClass);
     }
 
+    public void updateStats(){
+        for(Modifier mod : _modifiers){
+            _stats.getStat(mod.getStatToAffect()).modify(mod.getValue());
+        }
+    }
+    public void equip(Item item){
+        _mainHand = item;
+    }
     public void attackTarget(Unit target){
         if(_mainHand == null){
             target.damage(1 + _stats.STR.getModifier());
@@ -79,7 +91,13 @@ public class Unit {
             target.applyEffect(_mainHand.attackEffectTarget());
         }
     }
-
+    public void damage(int value){
+        _currentHealth -= value;
+        if(_currentHealth <= 0){
+            _currentHealth = 0;
+            die();
+        }
+    }
     public void applyEffect(StatusEffect[] effectList) {
         for(StatusEffect effect : effectList){
             _statuses.add(effect);
@@ -89,7 +107,6 @@ public class Unit {
         }
         updateStats();
     }
-
     public void tickStatuses(){
         for(StatusEffect status : _statuses){
             status.tick();
@@ -102,20 +119,6 @@ public class Unit {
             }
         }
     }
-    public void updateStats(){
-        for(Modifier mod : _modifiers){
-            _stats.getStat(mod.getStatToAffect()).modify(mod.getValue());
-        }
-    }
-
-    public void damage(int value){
-        _currentHealth -= value;
-        if(_currentHealth <= 0){
-            _currentHealth = 0;
-            die();
-        }
-    }
-
     private void die() {
         Toolbox.print(_name + " died!");
         _isAlive = false;
@@ -123,42 +126,52 @@ public class Unit {
     public boolean isAlive(){
         return _isAlive;
     }
-
-    public Stat getStat(StatType statType){
-        return _stats.getStat(statType);
-    }
-
-    public int getModifier(StatType statType){
-        return _stats.getStatModifier(statType);
+    public boolean isDead() {
+        return !_isAlive;
     }
     public boolean isPlayer(){
         return _isPlayer;
     }
-
-    public String toString(){
-        return _name;
-    }
-
-    public int getMaxHealth() {
-        return _maxHealth;
+    public void assignPlayer(){
+        _isPlayer = true;
+        _team = Alliance.PARTY;
     }
     public int getCurrentHealth(){
         return _currentHealth;
     }
-
+    public int getMaxHealth() {
+        return _maxHealth;
+    }
+    public Alliance getTeam() {
+        return _team;
+    }
+    public Stat getStat(StatType statType){
+        return _stats.getStat(statType);
+    }
+    public int getModifier(StatType statType){
+        return _stats.getStatModifier(statType);
+    }
     public Item getMainHand() {
         return _mainHand;
     }
-
     public Inventory getInventory() {
         return _inventory;
     }
-
-    public void equip(Item item){
-        _mainHand = item;
+    public String toString(){
+        return _name;
     }
-
-    public boolean isDead() {
-        return !_isAlive;
+    public String toStringDetailed(){
+        String output = _name + "\n" + _description + "\n" + _team +
+                "\n" + _stats.toString();
+        return output;
+    }
+    public boolean checkAggression(Unit u) {
+        Alliance target = u.getTeam();
+        for(Alliance a : this._team.getEnemies()){
+            if(a.equals(target)){
+                return true;
+            }
+        }
+        return false;
     }
 }

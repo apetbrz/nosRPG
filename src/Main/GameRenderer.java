@@ -63,13 +63,16 @@ public class GameRenderer extends JFrame {
     public void update(GameMaster game){
         _mapPanel.repaint();
         _inventoryPanel.repaint();
-        _combatPanel.setText(_gameMaster.getVisibleUnits().toString());
+        _hudPanel.update();
+        
+        _combatPanel.setText(_gameMaster.describeVisibleUnits());
     }
     public void initialize(GameMaster game){
         _gameMaster = game;
         _mapPanel.setMap(_gameMaster.getMap());
         _inventoryPanel.setInventory(_gameMaster.getPlayer().getInventory());
         update(game);
+        _hudPanel.initialize(_gameMaster.getPlayer());
     }
 
     public void buttonPressed(String value) {
@@ -85,6 +88,9 @@ public class GameRenderer extends JFrame {
                 break;
             case "west":
                 _gameMaster.input("move", Direction.WEST);
+                break;
+            case "attack":
+
                 break;
         }
     }

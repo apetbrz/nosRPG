@@ -5,6 +5,7 @@ import Mechanics.WeaponAction;
 import Mechanics.d;
 import Objects.Equipment.Weapons.MeleeWeapon;
 import World.Creatures.*;
+import World.Dungeon;
 import World.Prefabs.PrefabDungeons;
 import World.Prefabs.PrefabWeapons;
 import World.Room;
@@ -54,5 +55,14 @@ public class GameMaster {
     }
     public ArrayList<Unit> getVisibleUnits() {
         return _game.getCurrentRoom().getUnitsInRoom();
+    }
+
+    public String describeVisibleUnits() {
+        StringBuilder output = new StringBuilder();
+        for(Unit u : _game.getCurrentRoom().getUnitsInRoom()){
+            output.append(u.toStringDetailed());
+            output.append("\n\n");
+        }
+        return output.toString();
     }
 }

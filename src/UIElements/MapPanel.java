@@ -9,14 +9,13 @@ import java.awt.*;
 
 public class MapPanel extends JPanel {
     private GridBagConstraints c;
-    private static final int INFILL = 10;
-    private static final int EDGE_THICKNESS = 4;
-    private static final int DOOR_LENGTH = 15;
+    private static final int INFILL = 5;
+    private static final int EDGE_THICKNESS = 10;
+    private static final int DOOR_LENGTH = 20;
     private static final int PLAYER_SIZE = 25;
-    private static final int ROOM_SIZE = 100;
-    private static final Color ROOM_COLOR = Color.gray;
-    private static final Color EDGE_ROOM_COLOR = Color.darkGray.darker();
-    private static final Color FOG_ROOM_COLOR = Color.darkGray.brighter();
+    private static final Color ROOM_COLOR = Color.lightGray;
+    private static final Color EDGE_ROOM_COLOR = Color.black;
+    private static final Color FOG_ROOM_COLOR = Color.gray;
     private static final Color UNKNOWN_ROOM_COLOR = Color.darkGray;
     private static final Color PLAYER_ROOM_COLOR = Color.green;
     private static final Color TEXT_COLOR = Color.BLACK;
@@ -49,10 +48,6 @@ public class MapPanel extends JPanel {
 
         g2D.setFont(MAP_FONT);
         g2D.setStroke(new BasicStroke(EDGE_THICKNESS));
-
-        //background
-        g2D.setColor(ROOM_COLOR);
-        g2D.fillRect(INFILL, INFILL, totalWidth, totalHeight);
 
         //paint each room
         drawBackgrounds(g2D);

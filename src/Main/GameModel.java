@@ -1,11 +1,11 @@
 package Main;
 
 import Enums.Direction;
+import Lang.Toolbox;
 import Mechanics.*;
 import World.*;
 import World.Creatures.Player;
 import World.Creatures.Unit;
-import World.Prefabs.PrefabDungeons;
 
 public class GameModel {
     //TODO: REWORK GAME MODEL TO WORK WITH WINDOW CONTROLS INSTEAD OF CONSOLE INPUT
@@ -41,22 +41,27 @@ public class GameModel {
 
     public boolean checkForFight(){     //returns true if combat found, false if nothing
         for(Unit testUnit : _currentRoom.getUnitsInRoom()){
-            if(!testUnit.isPlayer()){
+            if(testUnit.checkAggression(_player)){
                 _activeCombat = new Combat(_currentRoom.getUnitsInRoom().toArray(new Unit[0]));
                 return true;
             }
         }
-        _activeCombat = null;
         return false;
     }
 
+    //CALLED WHENEVER INPUT IS TAKEN
     public void iterate(){
-        //TODO: MAP MOVEMENT HERE
-        /*if(checkForFight()){
-            _activeCombat.fight();
-        }*/
+        if(!isCombatActive()){
+            Toolbox.print("COMBAT CHECK: " + checkForFight());
+        }else{
+
+        }
     }
     public void movePlayer(Direction direction){
+        if(isCombatActive()){
+            Toolbox.print("CANNOT MOVE, COMBAT IS ACTIVE");
+            return;
+        }
         try {
             boolean success = _currentRoom.moveUnit(_player, direction);
             if(success) {
@@ -74,20 +79,22 @@ public class GameModel {
         for(Direction d : directions){
             iterator = room;
             while(iterator != null){
-                iterator.setVisible(visibility);
+                iterator.setVisibility(visibility);
                 iterator = iterator.getRoomInDirection(d);
             }
         }
     }
 
+    public boolean isCombatActive(){
+        return _activeCombat != null;
+    }
+
     public Dungeon getDungeon() {
         return _dungeon;
     }
-
     public Player getPlayer(){
         return _player;
     }
-
     public Room getCurrentRoom() {
         return _currentRoom;
     }

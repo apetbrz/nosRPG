@@ -48,4 +48,15 @@ public class StatSheet {
         return getStat(statType).getModifier();
     }
 
+    public String toString(){
+        String output =
+                "STR: " + STR.getValue() +
+                "\nDEX: " + DEX.getValue() +
+                "\nCON: " + CON.getValue() +
+                "\nINT: " + INT.getValue() +
+                "\nWIS: " + WIS.getValue() +
+                "\nCHA: " + CHA.getValue() +
+                "\nAC : " + AC.getValue();
+        return output;
+    }
 }

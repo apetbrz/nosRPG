@@ -21,4 +21,11 @@ public enum Alliance {
         FRIENDLY.Allies = new Alliance[]{PARTY,FRIENDLY};
         FRIENDLY.Allies = new Alliance[]{MONSTER};
     }
+
+    public Alliance[] getAllies() {
+        return Allies;
+    }
+    public Alliance[] getEnemies() {
+        return Enemies;
+    }
 }

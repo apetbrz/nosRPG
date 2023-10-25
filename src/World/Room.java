@@ -54,6 +54,7 @@ public class Room {
             }
         }catch(NullPointerException e){
             //invalid room, cannot move
+            System.out.println("UNIT:" + unit + " FAILED MOVE " + direction + " TO NULL ROOM");
             return false;
         }
     }
@@ -156,26 +157,22 @@ public class Room {
     public ArrayList<Unit> getUnitsInRoom() {
         return _unitsInRoom;
     }
-
     public ArrayList<Interactable> getObjectsInRoom(){
         return _objectsInRoom;
     }
-
     public byte getConnections() {
         return connections;
     }
 
-    public void setVisible(boolean visible) {
+    public void setVisibility(boolean visible) {
         _visible = visible;
         if(_visible && !_discovered){
             _discovered = true;
         }
     }
-
     public boolean isDiscovered() {
         return _discovered;
     }
-
     public boolean isVisible() {
         return _visible;
     }
