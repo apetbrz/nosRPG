@@ -21,7 +21,7 @@ public class Unit {
     public StatSheet _stats;
     ArrayList<StatusEffect> _statuses;
     ArrayList<Modifier> _modifiers;
-    Inventory _inv;
+    Inventory _inventory;
     Item _mainHand;
     Item _offHand;
     d d20 = new d(20);
@@ -36,7 +36,7 @@ public class Unit {
         _stats = new StatSheet();
         _statuses = new ArrayList<StatusEffect>();
         _modifiers = new ArrayList<Modifier>();
-        _inv = new Inventory();
+        _inventory = new Inventory();
         _mainHand = new Unarmed();
         _offHand = null;
     }
@@ -50,7 +50,7 @@ public class Unit {
         _stats = new StatSheet();
         _statuses = new ArrayList<StatusEffect>();
         _modifiers = new ArrayList<Modifier>();
-        _inv = new Inventory();
+        _inventory = new Inventory();
         _mainHand = new Unarmed();
         _offHand = null;
     }
@@ -149,6 +149,11 @@ public class Unit {
     public Item getMainHand() {
         return _mainHand;
     }
+
+    public Inventory getInventory() {
+        return _inventory;
+    }
+
     public void equip(Item item){
         _mainHand = item;
     }

@@ -1,6 +1,7 @@
 package World.Prefabs;
 
 import Enums.Direction;
+import World.Creatures.Unit;
 import World.Dungeon;
 import World.Room;
 
@@ -36,6 +37,7 @@ public class PrefabDungeons {
                 NE__,N__W,NE__,___W
         };
 
+
         int count = 0;
         for(int r = 0; r < 4; r++) {
             for (int c = 0; c < 4; c++) {
@@ -44,6 +46,8 @@ public class PrefabDungeons {
         }
 
         dungeon.setSpawn(0,0);
+
+        dungeon.getRawMap()[0][0].addUnit(new Unit("Dummy"));
 
         return dungeon;
     }

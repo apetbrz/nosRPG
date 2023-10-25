@@ -18,12 +18,11 @@ public class GameMaster {
 
     public GameMaster(){
         _game = new GameModel(PrefabDungeons.tutorialDungeon());
-        _renderer = new GameRenderer(this);
         _player = _game.getPlayer();
+        _renderer = new GameRenderer(this);
 
         MeleeWeapon testSword = (MeleeWeapon)PrefabWeapons.generate("training sword");
         _game.getPlayer().equip(testSword);
-        _game.getCurrentRoom().addUnit(new Unit("Dummy"));
     }
     public void play(){
         iterate();
@@ -50,7 +49,9 @@ public class GameMaster {
     public Room[][] getMap(){
         return _game.getDungeon().getRawMap();
     }
-
+    public Player getPlayer() {
+        return _player;
+    }
     public ArrayList<Unit> getVisibleUnits() {
         return _game.getCurrentRoom().getUnitsInRoom();
     }

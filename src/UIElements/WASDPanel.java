@@ -16,10 +16,10 @@ public class WASDPanel extends JPanel {
         this.setBackground(Color.darkGray);
         host = playerInputPanel;
 
-        N = new JButton("N");
-        E = new JButton("E");
+        N = new JButton("W");
+        E = new JButton("D");
         S = new JButton("S");
-        W = new JButton("W");
+        W = new JButton("A");
 
         enable();
 

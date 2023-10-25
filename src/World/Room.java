@@ -80,20 +80,6 @@ public class Room {
                 break;
         }
     }
-    public Room getRoomInDirection(Direction d){
-        switch(d){
-            case NORTH:
-                return _northRoom;
-            case EAST:
-                return _eastRoom;
-            case SOUTH:
-                return _southRoom;
-            case WEST:
-                return _westRoom;
-            default:
-                return null;
-        }
-    }
     public boolean hasPlayer() {
         for(Unit unit : _unitsInRoom){
             if(unit.isPlayer()){
@@ -104,8 +90,8 @@ public class Room {
     }
 
     //these should never get passed a null room !!!
-
     //TODO: ^^fix that lmao
+
     public void setNorthRoom(Room northRoom, boolean connectBack) {
         _northRoom = northRoom;
         connections |= Direction.NORTH.directionByte;
@@ -145,6 +131,20 @@ public class Room {
     }
     public Room getWestRoom() {
         return _westRoom;
+    }
+    public Room getRoomInDirection(Direction d){
+        switch(d){
+            case NORTH:
+                return getNorthRoom();
+            case EAST:
+                return getEastRoom();
+            case SOUTH:
+                return getSouthRoom();
+            case WEST:
+                return getWestRoom();
+            default:
+                return null;
+        }
     }
 
     public String getName() {

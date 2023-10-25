@@ -11,12 +11,13 @@ public class MapPanel extends JPanel {
     private GridBagConstraints c;
     private static final int INFILL = 10;
     private static final int EDGE_THICKNESS = 4;
-    private static final int DOOR_LENGTH = 10;
+    private static final int DOOR_LENGTH = 15;
     private static final int PLAYER_SIZE = 25;
     private static final int ROOM_SIZE = 100;
     private static final Color ROOM_COLOR = Color.gray;
-    private static final Color EDGE_ROOM_COLOR = Color.darkGray;
+    private static final Color EDGE_ROOM_COLOR = Color.darkGray.darker();
     private static final Color FOG_ROOM_COLOR = Color.darkGray.brighter();
+    private static final Color UNKNOWN_ROOM_COLOR = Color.darkGray;
     private static final Color PLAYER_ROOM_COLOR = Color.green;
     private static final Color TEXT_COLOR = Color.BLACK;
     private static final Font MAP_FONT = new Font("MONOSPACED",Font.PLAIN, 10);
@@ -52,11 +53,13 @@ public class MapPanel extends JPanel {
         //background
         g2D.setColor(ROOM_COLOR);
         g2D.fillRect(INFILL, INFILL, totalWidth, totalHeight);
-        g2D.setColor(EDGE_ROOM_COLOR);
-        g2D.drawRect(INFILL, INFILL, totalWidth, totalHeight);
 
         //paint each room
         drawBackgrounds(g2D);
+
+        g2D.setColor(EDGE_ROOM_COLOR);
+        g2D.drawRect(INFILL, INFILL, totalWidth, totalHeight);
+
         drawLines(g2D);
         drawMapText(g2D);
         drawPlayer(g2D);
@@ -74,12 +77,14 @@ public class MapPanel extends JPanel {
                 //null or not-visible room
                 if(nullRoom){
                     g2D.setColor(FOG_ROOM_COLOR);
-                    g2D.fillRect(squareX,squareY,squareSize,squareSize);
-                }
-                else if(!currentRoom.isVisible()){
+                }else if(!currentRoom.isDiscovered()){
+                    g2D.setColor(UNKNOWN_ROOM_COLOR);
+                }else if(!currentRoom.isVisible()){
                     g2D.setColor(FOG_ROOM_COLOR);
-                    g2D.fillRect(squareX,squareY,squareSize,squareSize);
+                }else{
+                    g2D.setColor(ROOM_COLOR);
                 }
+                g2D.fillRect(squareX,squareY,squareSize,squareSize);
             }
         }
     }
@@ -108,6 +113,7 @@ public class MapPanel extends JPanel {
                 }else {
                     g2D.setColor(ROOM_COLOR);
                 }
+                //TODO: doors (using highest 4 bits in connections byte)
                 if(currentRoom.isDiscovered()) {
                     if ((roomConnections & Direction.NORTH.directionByte) != 0) {
                         g2D.drawLine(squareX + DOOR_LENGTH, squareY, endX - DOOR_LENGTH, squareY);

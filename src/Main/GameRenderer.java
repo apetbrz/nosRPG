@@ -62,11 +62,13 @@ public class GameRenderer extends JFrame {
     }
     public void update(GameMaster game){
         _mapPanel.repaint();
+        _inventoryPanel.repaint();
         _combatPanel.setText(_gameMaster.getVisibleUnits().toString());
     }
     public void initialize(GameMaster game){
         _gameMaster = game;
         _mapPanel.setMap(_gameMaster.getMap());
+        _inventoryPanel.setInventory(_gameMaster.getPlayer().getInventory());
         update(game);
     }
 
