@@ -5,6 +5,7 @@ import Mechanics.*;
 import World.*;
 import World.Creatures.Player;
 import World.Creatures.Unit;
+import World.Prefabs.PrefabDungeons;
 
 public class GameModel {
     //TODO: REWORK GAME MODEL TO WORK WITH WINDOW CONTROLS INSTEAD OF CONSOLE INPUT
@@ -35,6 +36,7 @@ public class GameModel {
     private void initializePlayer(){
         _player = new Player("Player");
         _currentRoom.addUnit(_player);
+        see(_currentRoom,true);
     }
 
     public boolean checkForFight(){     //returns true if combat found, false if nothing
@@ -58,10 +60,23 @@ public class GameModel {
         try {
             boolean success = _currentRoom.moveUnit(_player, direction);
             if(success) {
+                see(_currentRoom, false);
                 _currentRoom = _currentRoom.getRoomInDirection(direction);
+                see(_currentRoom, true);
             }
         }catch(NullPointerException e){
             //null room, do nothing
+        }
+    }
+    public void see(Room room, boolean visibility){
+        Direction[] directions = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
+        Room iterator;
+        for(Direction d : directions){
+            iterator = room;
+            while(iterator != null){
+                iterator.setVisible(visibility);
+                iterator = iterator.getRoomInDirection(d);
+            }
         }
     }
 

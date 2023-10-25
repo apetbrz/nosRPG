@@ -23,6 +23,8 @@ public class Room {
     private Room _eastRoom;
     private Room _southRoom;
     private Room _westRoom;
+    private boolean _visible;
+    private boolean _discovered;
 
     public Room(){
         this("DEFAULT_ROOM");
@@ -33,6 +35,7 @@ public class Room {
         _unitsInRoom = new ArrayList<Unit>();
         _objectsInRoom = new ArrayList<Interactable>();
         connections = 0;
+        _visible = false;
     }
 
     public boolean moveUnit(Unit unit, Direction direction){
@@ -131,19 +134,50 @@ public class Room {
             _westRoom.setEastRoom(this, false);
         }
     }
+    public Room getNorthRoom() {
+        return _northRoom;
+    }
+    public Room getEastRoom() {
+        return _eastRoom;
+    }
+    public Room getSouthRoom() {
+        return _southRoom;
+    }
+    public Room getWestRoom() {
+        return _westRoom;
+    }
 
     public String getName() {
         return _name;
     }
+    public Terrain getTerrain() {
+        return _terrain;
+    }
     public ArrayList<Unit> getUnitsInRoom() {
         return _unitsInRoom;
     }
+
     public ArrayList<Interactable> getObjectsInRoom(){
         return _objectsInRoom;
     }
 
     public byte getConnections() {
         return connections;
+    }
+
+    public void setVisible(boolean visible) {
+        _visible = visible;
+        if(_visible && !_discovered){
+            _discovered = true;
+        }
+    }
+
+    public boolean isDiscovered() {
+        return _discovered;
+    }
+
+    public boolean isVisible() {
+        return _visible;
     }
 
     public String toString(){

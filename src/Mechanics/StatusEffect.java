@@ -52,5 +52,5 @@ enum StatusType{
     POISON,
     CURSE,
     BLESSING,
-    PERMANENT;
+    PERMANENT
 }

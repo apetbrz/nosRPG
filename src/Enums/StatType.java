@@ -7,5 +7,5 @@ public enum StatType {
     INTELLIGENCE,
     WISDOM,
     CHARISMA,
-    ARMOR_CLASS;
+    ARMOR_CLASS
 }

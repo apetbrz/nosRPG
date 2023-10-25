@@ -9,7 +9,7 @@ public enum Direction {
     public int y;
     public byte directionByte;
 
-    private Direction(int _x, int _y, byte b) {
+    Direction(int _x, int _y, byte b) {
         this.x = _x;
         this.y = _y;
         directionByte = b;

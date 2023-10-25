@@ -14,5 +14,5 @@ enum LightLevel {
     DAYLIGHT,
     LIT,
     DARK,
-    PITCH_BLACK;
+    PITCH_BLACK
 }
