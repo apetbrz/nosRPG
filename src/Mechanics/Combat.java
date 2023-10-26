@@ -4,6 +4,8 @@ import Lang.CombatStrings;
 import Lang.Toolbox;
 import Objects.Equipment.Weapons.Weapon;
 import World.Creatures.Unit;
+
+import java.util.Iterator;
 import java.util.Scanner;
 
 import static Enums.StatType.*;
@@ -11,11 +13,11 @@ import static Enums.StatType.*;
 import java.util.ArrayList;
 
 public class Combat {
-    ArrayList<Unit> unitsInCombat;
+    ArrayList<Unit> _unitsInCombat;
     d initiative = new d(20);
     private static final Scanner SCAN = new Scanner(System.in);
     public Combat(Unit[] unitList){
-        unitsInCombat = generateInitiativeOrder(unitList);
+        _unitsInCombat = generateInitiativeOrder(unitList);
     }
 
     public void fight(){
@@ -23,7 +25,7 @@ public class Combat {
         boolean fightEnd = false;
         while(!fightEnd) {
             healthDisplay();
-            for (Unit activeUnit : unitsInCombat) {
+            for (Unit activeUnit : _unitsInCombat) {
                 if (activeUnit.isPlayer()) {
                     playerActions(activeUnit);
                 } else {
@@ -39,7 +41,7 @@ public class Combat {
         }
     }
     private void healthDisplay(){
-        for(Unit unit : unitsInCombat){
+        for(Unit unit : _unitsInCombat){
             Toolbox.print(String.format(CombatStrings.COMBAT_HEALTH_FORMAT,unit,
                     (unit.getCurrentHealth() + "/" + unit.getMaxHealth())));
         }
@@ -57,7 +59,7 @@ public class Combat {
                 Toolbox.print("\nYou attacked " + target + " for " + damage + " damage!");
                 target.damage(damage);
                 if(target.isDead() && !target.isPlayer()){
-                    unitsInCombat.remove(target);
+                    _unitsInCombat.remove(target);
                 }
                 break;
             case 2: //USE ITEM
@@ -66,16 +68,38 @@ public class Combat {
         }
     }
 
+    public ArrayList<Unit> getNonPartyMembers(){
+        ArrayList<Unit> out = new ArrayList<Unit>(_unitsInCombat);
+        for(Iterator<Unit> iterator = out.iterator(); iterator.hasNext();){
+            if(iterator.next().isPlayer()){
+                iterator.remove();
+            }
+        }
+        return out;
+    }
     private Unit playerTargetPrompt(){
         int count = 1;
-        for(Unit unit : unitsInCombat){
+        for(Unit unit : _unitsInCombat){
             Toolbox.print("[" + count++ + ": " + unit + "]");
         }
         int choice = SCAN.nextInt() - 1;
-        return unitsInCombat.get(choice);
+        return _unitsInCombat.get(choice);
     }
     private void botActions(){
         Toolbox.print("The dummy sits there.");
+    }
+
+    public boolean checkCombatEnd(){
+        boolean output = true;
+        for(Unit unit : _unitsInCombat){
+            if(!unit.isPlayer() && unit.isAlive()){
+                output = false;
+            }
+            if(unit.isPlayer() && unit.isDead()){
+                return true;
+            }
+        }
+        return output;
     }
 
     private ArrayList<Unit> generateInitiativeOrder(Unit[] unitList){
@@ -105,20 +129,7 @@ public class Combat {
         }
         return output;
     }
-    private boolean checkCombatEnd(){
-        boolean output = true;
-        for(Unit unit : unitsInCombat){
-            if(!unit.isPlayer()){
-                output = false;
-            }
-            if(unit.isPlayer() && unit.isDead()){
-                return true;
-            }
-        }
-        return output;
-    }
-
     public String toString(){
-        return unitsInCombat.toString();
+        return _unitsInCombat.toString();
     }
 }

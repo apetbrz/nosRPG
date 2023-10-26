@@ -147,7 +147,6 @@ public class Room {
                 return null;
         }
     }
-
     public String getName() {
         return _name;
     }
@@ -170,11 +169,11 @@ public class Room {
             _discovered = true;
         }
     }
-    public boolean isDiscovered() {
-        return _discovered;
-    }
     public boolean isVisible() {
         return _visible;
+    }
+    public boolean isDiscovered() {
+        return _discovered;
     }
 
     public String toString(){

@@ -7,10 +7,11 @@ import World.*;
 import World.Creatures.Player;
 import World.Creatures.Unit;
 
+import java.util.ArrayList;
+
 public class GameModel {
     //TODO: REWORK GAME MODEL TO WORK WITH WINDOW CONTROLS INSTEAD OF CONSOLE INPUT
     private static final int DEFAULT_DUNGEON_SIZE = 5;
-    private GameMaster _gameMaster;
     private Dungeon _dungeon;
     private Room _currentRoom;
     private Player _player;
@@ -39,17 +40,8 @@ public class GameModel {
         see(_currentRoom,true);
     }
 
-    public boolean checkForFight(){     //returns true if combat found, false if nothing
-        for(Unit testUnit : _currentRoom.getUnitsInRoom()){
-            if(testUnit.checkAggression(_player)){
-                _activeCombat = new Combat(_currentRoom.getUnitsInRoom().toArray(new Unit[0]));
-                return true;
-            }
-        }
-        return false;
-    }
-
     //CALLED WHENEVER INPUT IS TAKEN
+
     public void iterate(){
         if(!isCombatActive()){
             Toolbox.print("COMBAT CHECK: " + checkForFight());
@@ -73,6 +65,14 @@ public class GameModel {
             //null room, do nothing
         }
     }
+    public void playerAttack(String data) {
+        _player.attackTarget(getCombatUnits().get(Integer.parseInt(data)));
+        if(_activeCombat.checkCombatEnd()){
+            Toolbox.print("COMBAT IS OVER");
+            _activeCombat = null;
+        }
+    }
+
     public void see(Room room, boolean visibility){
         Direction[] directions = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
         Room iterator;
@@ -84,11 +84,18 @@ public class GameModel {
             }
         }
     }
-
+    public boolean checkForFight(){     //returns true if combat found, false if nothing
+        for(Unit testUnit : _currentRoom.getUnitsInRoom()){
+            if(testUnit.checkAggression(_player)){
+                _activeCombat = new Combat(_currentRoom.getUnitsInRoom().toArray(new Unit[0]));
+                return true;
+            }
+        }
+        return false;
+    }
     public boolean isCombatActive(){
         return _activeCombat != null;
     }
-
     public Dungeon getDungeon() {
         return _dungeon;
     }
@@ -97,5 +104,15 @@ public class GameModel {
     }
     public Room getCurrentRoom() {
         return _currentRoom;
+    }
+    public ArrayList<Unit> getUnitsInRoom(){
+        return _currentRoom.getUnitsInRoom();
+    }
+
+    public ArrayList<Unit> getCombatUnits() {
+        if(isCombatActive()){
+            return _activeCombat.getNonPartyMembers();
+        }
+        return null;
     }
 }

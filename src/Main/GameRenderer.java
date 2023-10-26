@@ -2,11 +2,11 @@ package Main;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
+import Enums.Command;
 import Enums.Direction;
+import Lang.Toolbox;
 import UIElements.*;
-import World.Creatures.Player;
 
 public class GameRenderer extends JFrame {
     private static final String TITLE = "nosRPG Pre-Alpha 0.0.1";
@@ -60,38 +60,32 @@ public class GameRenderer extends JFrame {
 
         _combatPanel.write("TEST");
     }
-    public void update(GameMaster game){
+    public void update(){
         _mapPanel.repaint();
         _inventoryPanel.repaint();
         _hudPanel.update();
+        _inputPanel.update();
         
-        _combatPanel.setText(_gameMaster.describeVisibleUnits());
+        updateCombatPanel();
     }
+
+    private void updateCombatPanel(){
+        _combatPanel.setText(_gameMaster.renderCombatInfo());
+    }
+
     public void initialize(GameMaster game){
         _gameMaster = game;
         _mapPanel.setMap(_gameMaster.getMap());
         _inventoryPanel.setInventory(_gameMaster.getPlayer().getInventory());
-        update(game);
         _hudPanel.initialize(_gameMaster.getPlayer());
+        update();
     }
 
-    public void buttonPressed(String value) {
-        switch(value){
-            case "north":
-                _gameMaster.input("move", Direction.NORTH);
-                break;
-            case "east":
-                _gameMaster.input("move", Direction.EAST);
-                break;
-            case "south":
-                _gameMaster.input("move", Direction.SOUTH);
-                break;
-            case "west":
-                _gameMaster.input("move", Direction.WEST);
-                break;
-            case "attack":
-
-                break;
-        }
+    public void buttonPressed(Command command, String data) {
+        Toolbox.print("COMMAND " + command + " HEARD BY RENDERER");
+        _gameMaster.input(command, data);
+    }
+    public void promptUnitSelection(int unitCount){
+        _inputPanel.promptUnitSelection(unitCount);
     }
 }

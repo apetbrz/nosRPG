@@ -161,11 +161,13 @@ public class Unit {
         return _name;
     }
     public String toStringDetailed(){
-        String output = _name + "\n" + _description + "\n" + _team +
+        String output = _name + " " + _currentHealth + " hp " + (isDead()? "DEAD" : "") +
+                "\n" + _description + "\n" + _team +
                 "\n" + _stats.toString();
         return output;
     }
     public boolean checkAggression(Unit u) {
+        if(isDead()) return false;
         Alliance target = u.getTeam();
         for(Alliance a : this._team.getEnemies()){
             if(a.equals(target)){

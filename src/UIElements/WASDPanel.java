@@ -1,5 +1,7 @@
 package UIElements;
 
+import Enums.Command;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -28,7 +30,7 @@ public class WASDPanel extends JPanel {
         N.getActionMap().put("KEY_W", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(enabled) host.buttonPressed("north");
+                if(enabled) host.buttonPressed(Command.MOVE, "NORTH");
             }
         });
 
@@ -37,7 +39,7 @@ public class WASDPanel extends JPanel {
         E.getActionMap().put("KEY_D", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(enabled) host.buttonPressed("east");
+                if(enabled) host.buttonPressed(Command.MOVE, "EAST");
             }
         });
 
@@ -46,7 +48,7 @@ public class WASDPanel extends JPanel {
         S.getActionMap().put("KEY_S", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(enabled) host.buttonPressed("south");
+                if(enabled) host.buttonPressed(Command.MOVE, "SOUTH");
             }
         });
 
@@ -55,7 +57,7 @@ public class WASDPanel extends JPanel {
         W.getActionMap().put("KEY_A", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(enabled) host.buttonPressed("west");
+                if(enabled) host.buttonPressed(Command.MOVE, "WEST");
             }
         });
 
