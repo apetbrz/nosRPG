@@ -99,7 +99,7 @@ public class PlayerInputPanel extends JPanel {
         c.gridy = 2;
         c.gridwidth = 2;
         c.weightx = 1;
-        c.weighty = 1;
+        c.weighty = 0.5;
         c.anchor = GridBagConstraints.CENTER;
         c.fill = GridBagConstraints.BOTH;
         c.insets = new Insets(10,10,10,10);

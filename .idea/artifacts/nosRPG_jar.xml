@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="nosRPG:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/nosRPG_jar</output-path>
+    <root id="archive" name="nosRPG.jar">
+      <element id="module-output" name="nosRPG" />
+    </root>
+  </artifact>
+</component>

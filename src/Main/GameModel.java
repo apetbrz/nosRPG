@@ -87,7 +87,7 @@ public class GameModel {
     public boolean checkForFight(){     //returns true if combat found, false if nothing
         for(Unit testUnit : _currentRoom.getUnitsInRoom()){
             if(testUnit.checkAggression(_player)){
-                _activeCombat = new Combat(_currentRoom.getUnitsInRoom().toArray(new Unit[0]));
+                _activeCombat = new Combat(_player, _currentRoom.getPresentAlliesOf(testUnit));
                 return true;
             }
         }
@@ -108,11 +108,15 @@ public class GameModel {
     public ArrayList<Unit> getUnitsInRoom(){
         return _currentRoom.getUnitsInRoom();
     }
-
     public ArrayList<Unit> getCombatUnits() {
         if(isCombatActive()){
             return _activeCombat.getNonPartyMembers();
         }
         return null;
+    }
+
+    public void forceCombat(int selectionIndex) {
+        ArrayList<Unit> aggressiveUnits = _currentRoom.getPresentAlliesOf(_currentRoom.getUnitsInRoom().get(selectionIndex));
+        if(!aggressiveUnits.isEmpty()) _activeCombat = new Combat(_player, aggressiveUnits);
     }
 }

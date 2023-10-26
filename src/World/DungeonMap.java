@@ -2,6 +2,7 @@ package World;
 
 import Enums.Direction;
 import Lang.Toolbox;
+import World.Creatures.Unit;
 
 /*
 Rooms are stored in the array as such:
@@ -130,5 +131,9 @@ public class DungeonMap {
     }
     public Room[][] getRooms() {
         return _rooms;
+    }
+
+    public void addUnit(Unit unit, int x, int y) {
+        _rooms[y][x].addUnit(unit);
     }
 }

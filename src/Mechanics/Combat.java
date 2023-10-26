@@ -16,7 +16,9 @@ public class Combat {
     ArrayList<Unit> _unitsInCombat;
     d initiative = new d(20);
     private static final Scanner SCAN = new Scanner(System.in);
-    public Combat(Unit[] unitList){
+    public Combat(Unit player, ArrayList<Unit> unitList){
+        _unitsInCombat = unitList;
+        _unitsInCombat.add(player);
         _unitsInCombat = generateInitiativeOrder(unitList);
     }
 
@@ -102,7 +104,7 @@ public class Combat {
         return output;
     }
 
-    private ArrayList<Unit> generateInitiativeOrder(Unit[] unitList){
+    private ArrayList<Unit> generateInitiativeOrder(ArrayList<Unit> unitList){
         ArrayList<Unit> output = new ArrayList<Unit>(1);
         ArrayList<Integer> rolls = new ArrayList<Integer>(1);
         int roll;

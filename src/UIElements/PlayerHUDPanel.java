@@ -53,10 +53,10 @@ public class PlayerHUDPanel extends JPanel {
         c.gridy = 0;
         c.gridwidth = 2;
         c.weightx = 1;
-        c.weighty = 1;
+        c.weighty = 0.5;
+        c.anchor = GridBagConstraints.CENTER;
         c.fill = GridBagConstraints.BOTH;
         c.insets = new Insets(10,10,10,10);
-        c.anchor = GridBagConstraints.PAGE_START;
     }
     public GridBagConstraints getC(){
         return c;

@@ -5,7 +5,7 @@ import World.Creatures.Unit;
 import World.Dungeon;
 import World.Room;
 
-public class PrefabDungeons {
+public class PrefabDungeons{
     //i will use Prefab classes to generate preset dungeons/items
     private static final Direction[] NESW = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
 
@@ -29,26 +29,28 @@ public class PrefabDungeons {
     private static final Direction[] ____ = {};
 
     public static Dungeon tutorialDungeon(){
-        Dungeon dungeon = new Dungeon(4,4);
+        int tutorialDungeonSize = 5;
+        Dungeon dungeon = new Dungeon(tutorialDungeonSize,tutorialDungeonSize);
         Direction[][] connections = new Direction[][]{
-                _E__,_E_W,_E_W,__SW,
-                _ES_,_E_W,__SW,N_S_,
-                N_S_,_ES_,NESW,N__W,
-                NE__,N__W,NE__,___W
+                _ES_,_E_W,_E_W,__SW,__S_,
+                NE__,_E_W,__SW,NE__,N__W,
+                _ES_,_ESW,NESW,_E_W,__SW,
+                N_S_,N___,NE__,__SW,N_S_,
+                NE__,_E_W,_E_W,NE_W,N__W
         };
 
-
         int count = 0;
-        for(int r = 0; r < 4; r++) {
-            for (int c = 0; c < 4; c++) {
+        for(int r = 0; r < tutorialDungeonSize; r++) {
+            for (int c = 0; c < tutorialDungeonSize; c++) {
                 dungeon.addRoom(new Room("" + c + " " + r),c,r,connections[count++]);
             }
         }
 
-        dungeon.setSpawn(0,0);
+        dungeon.setSpawn(4,0);
 
-        dungeon.getRawMap()[0][0].addUnit(new Unit("Dummy"));
-        dungeon.getRawMap()[3][3].addUnit(PrefabUnits.generate("Goblin"));
+        dungeon.addUnit(PrefabUnits.generate("Dummy"),0,0);
+        dungeon.addUnit(PrefabUnits.generate("Goblin"),3,3);
+        dungeon.addUnit(PrefabUnits.generate("Merchant"),1,3);
 
         return dungeon;
     }

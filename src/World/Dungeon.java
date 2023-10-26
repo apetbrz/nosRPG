@@ -3,6 +3,7 @@ package World;
 
 import Enums.Direction;
 import World.Creatures.Player;
+import World.Creatures.Unit;
 import World.Prefabs.RoomGenerator;
 
 public class Dungeon {
@@ -37,11 +38,13 @@ public class Dungeon {
     public void fillRooms(Room[][] newRooms, int x1, int y1, int x2, int y2){
         _dungeonMap.fillRooms(newRooms,x1,y1,x2,y2,false);
     }
-
     public void connectRooms(int x, int y, Direction[] directions){
         _dungeonMap.connectRoom(x,y,directions);
     }
 
+    public void addUnit(Unit unit, int x, int y){
+        _dungeonMap.addUnit(unit, x, y);
+    }
     public Room[][] getRawMap() {
         return _dungeonMap.getRooms();
     }

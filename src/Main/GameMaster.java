@@ -49,6 +49,9 @@ public class GameMaster {
                 break;
             case ATTACK:
                 if(_game.isCombatActive()) _game.playerAttack(""+_selectionIndex);
+                else{
+                    _game.forceCombat(_selectionIndex);
+                }
                 break;
             case SELECTION:
                 break;

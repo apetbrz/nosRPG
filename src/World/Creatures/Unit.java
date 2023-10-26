@@ -176,4 +176,37 @@ public class Unit {
         }
         return false;
     }
+
+    public boolean isAllyOf(Unit testUnit) {
+        for(Alliance alliance : _team.getAllies()){
+            if(testUnit.getTeam() == alliance){
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean isAllyOf(Alliance team) {
+        for(Alliance alliance : _team.getAllies()){
+            if(team == alliance){
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean isEnemyOf(Unit testUnit) {
+        for(Alliance alliance : _team.getEnemies()){
+            if(testUnit.getTeam() == alliance){
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean isEnemyOf(Alliance team) {
+        for(Alliance alliance : _team.getEnemies()){
+            if(team == alliance){
+                return true;
+            }
+        }
+        return false;
+    }
 }

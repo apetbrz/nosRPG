@@ -2,22 +2,24 @@ package UIElements;
 
 import Mechanics.Inventory;
 
+import javax.swing.*;
 import java.awt.*;
 
-public class InventoryPanel extends Canvas {
+public class InventoryPanel extends JPanel {
     private GridBagConstraints c;
-    private static final int INFILL = 10;
+    public static final int INFILL = 10;
     private Inventory _inventory;
 
     public InventoryPanel(){
         super();
         this.setBackground(Color.BLACK);
         this.setVisible(true);
-        initializeConstraints();
+        //initializeConstraints();
     }
 
     @Override
-    public void paint(Graphics g) {
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
         Graphics2D g2D = (Graphics2D)g;
         g2D.setColor(Color.gray);
         g2D.fillRect(INFILL,INFILL,this.getWidth()-INFILL*2,this.getHeight()-INFILL*2);

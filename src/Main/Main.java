@@ -2,6 +2,10 @@ package Main;
 
 public class Main {
     //TODO: MENU
+
+    public static final int WIDTH = 1200;
+    public static final int HEIGHT = 1000;
+
     public static void main(String[] args) {
         GameMaster game = new GameMaster();
         game.play();

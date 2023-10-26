@@ -1,5 +1,6 @@
 package World;
 
+import Enums.Alliance;
 import Enums.Direction;
 import Enums.Terrain;
 import Objects.Interactable;
@@ -59,6 +60,7 @@ public class Room {
         }
     }
     public void addUnit(Unit unit) {
+        if(unit == null) return;
         _unitsInRoom.add(unit);
     }
     private void removeUnit(Unit unit) {
@@ -89,10 +91,25 @@ public class Room {
         }
         return false;
     }
+    public boolean hasAllyOf(Alliance team){
+        for(Unit unit : _unitsInRoom){
+            if(unit.isAllyOf(team) && unit.isAlive()){
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean hasEnemyOf(Alliance team){
+        for(Unit unit : _unitsInRoom){
+            if(unit.isEnemyOf(team) && unit.isAlive()){
+                return true;
+            }
+        }
+        return false;
+    }
 
     //these should never get passed a null room !!!
     //TODO: ^^fix that lmao
-
     public void setNorthRoom(Room northRoom, boolean connectBack) {
         _northRoom = northRoom;
         connections |= Direction.NORTH.directionByte;
@@ -150,19 +167,27 @@ public class Room {
     public String getName() {
         return _name;
     }
+    public byte getConnections() {
+        return connections;
+    }
     public Terrain getTerrain() {
         return _terrain;
     }
     public ArrayList<Unit> getUnitsInRoom() {
         return _unitsInRoom;
     }
+    public ArrayList<Unit> getPresentAlliesOf(Unit testUnit) {
+        ArrayList<Unit> out = new ArrayList<Unit>();
+        for(Unit u : _unitsInRoom){
+            if(u.isAllyOf(testUnit) && !u.isPlayer() && u.isAlive()){
+                out.add(u);
+            }
+        }
+        return out;
+    }
     public ArrayList<Interactable> getObjectsInRoom(){
         return _objectsInRoom;
     }
-    public byte getConnections() {
-        return connections;
-    }
-
     public void setVisibility(boolean visible) {
         _visible = visible;
         if(_visible && !_discovered){
@@ -175,7 +200,13 @@ public class Room {
     public boolean isDiscovered() {
         return _discovered;
     }
-
+    public boolean isConnectedTo(Room room){
+        if(room == getNorthRoom()) return true;
+        else if(room == getEastRoom()) return true;
+        else if(room == getSouthRoom()) return true;
+        else if(room == getWestRoom()) return true;
+        else return false;
+    }
     public String toString(){
         return getName();
     }

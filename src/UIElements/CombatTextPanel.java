@@ -14,7 +14,8 @@ public class CombatTextPanel extends JTextArea {
         this.setBorder(new MatteBorder(5,5,5,5,Color.BLACK));
         this.setEditable(false);
         this.setLineWrap(true);
-        this.setMinimumSize(new Dimension(600,600));
+        this.setWrapStyleWord(true);
+        //this.setMinimumSize(new Dimension(Main.Main.WIDTH/2,Main.Main.HEIGHT/2));
         this.setFont(MAIN_FONT);
         initializeConstraints();
     }
@@ -33,10 +34,10 @@ public class CombatTextPanel extends JTextArea {
         c.gridx = 1;
         c.gridy = 1;
         c.insets = new Insets(0,5,5,10);
-        c.fill = GridBagConstraints.NONE;
+        c.fill = GridBagConstraints.BOTH;
         c.anchor = GridBagConstraints.CENTER;
-        c.weightx = 1;
-        c.weighty = 1;
+        c.weightx = 0.5;
+        c.weighty = 0.5;
         c.gridheight = 1;
         c.gridwidth = 1;
     }

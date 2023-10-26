@@ -1,5 +1,6 @@
 package UIElements;
 
+import Enums.Alliance;
 import Enums.Direction;
 import Main.GameRenderer;
 import World.Room;
@@ -11,13 +12,18 @@ public class MapPanel extends JPanel {
     private GridBagConstraints c;
     private static final int INFILL = 5;
     private static final int EDGE_THICKNESS = 10;
+    private static final BasicStroke DEFAULT_EDGE = new BasicStroke(EDGE_THICKNESS);
+    private static final BasicStroke THIN_EDGE = new BasicStroke(EDGE_THICKNESS/3);
     private static final int DOOR_LENGTH = 20;
     private static final int PLAYER_SIZE = 25;
+    private static final int NPC_SIZE = 15;
     private static final Color ROOM_COLOR = Color.lightGray;
     private static final Color EDGE_ROOM_COLOR = Color.black;
     private static final Color FOG_ROOM_COLOR = Color.gray;
     private static final Color UNKNOWN_ROOM_COLOR = Color.darkGray;
-    private static final Color PLAYER_ROOM_COLOR = Color.green;
+    private static final Color PLAYER_COLOR = Color.green;
+    private static final Color ENEMY_NPC_COLOR = Color.RED;
+    private static final Color NEUTRAL_NPC_COLOR = Color.GRAY;
     private static final Color TEXT_COLOR = Color.BLACK;
     private static final Font MAP_FONT = new Font("MONOSPACED",Font.PLAIN, 10);
     private Room[][] _map;
@@ -47,7 +53,7 @@ public class MapPanel extends JPanel {
         }
 
         g2D.setFont(MAP_FONT);
-        g2D.setStroke(new BasicStroke(EDGE_THICKNESS));
+        g2D.setStroke(DEFAULT_EDGE);
 
         //paint each room
         drawBackgrounds(g2D);
@@ -57,6 +63,9 @@ public class MapPanel extends JPanel {
 
         drawLines(g2D);
         drawMapText(g2D);
+
+        g2D.setStroke(THIN_EDGE);
+
         drawPlayer(g2D);
     }
     private void drawBackgrounds(Graphics2D g2D){
@@ -109,7 +118,9 @@ public class MapPanel extends JPanel {
                     g2D.setColor(ROOM_COLOR);
                 }
                 //TODO: doors (using highest 4 bits in connections byte)
+                //if room is discovered..
                 if(currentRoom.isDiscovered()) {
+                    //if connection is valid, draw a line with the same color as the background to "open" it
                     if ((roomConnections & Direction.NORTH.directionByte) != 0) {
                         g2D.drawLine(squareX + DOOR_LENGTH, squareY, endX - DOOR_LENGTH, squareY);
                     }
@@ -149,17 +160,45 @@ public class MapPanel extends JPanel {
                 boolean nullRoom = currentRoom == null;
                 int squareX = INFILL + (col * squareSize);
                 int squareY = INFILL + (row * squareSize);
+                int endX = squareX + squareSize;
+                int endY = squareY + squareSize;
                 int playerX = squareX + squareSize/2 - PLAYER_SIZE/2;
                 int playerY = squareY + squareSize/2 - PLAYER_SIZE/2;
+                int npcX = squareX + squareSize/2 - NPC_SIZE/2;
+                int npcY = squareY + squareSize/2 - NPC_SIZE/2;
+
+                byte roomConnections = !nullRoom ? currentRoom.getConnections() : 0;
 
                 //check for player
                 if (nullRoom) {
                     //null room
                     return;
                 } else if (currentRoom.hasPlayer()) {
-                    g2D.setColor(PLAYER_ROOM_COLOR);
+                    g2D.setColor(PLAYER_COLOR);
                     g2D.fillOval(playerX, playerY, PLAYER_SIZE, PLAYER_SIZE);
-                }
+                    //if connection is valid, draw a line to show player which way they can go
+                    if ((roomConnections & Direction.NORTH.directionByte) != 0) {
+                        g2D.drawLine(squareX + DOOR_LENGTH*2, squareY, endX - DOOR_LENGTH*2, squareY);
+                    }
+                    if ((roomConnections & Direction.EAST.directionByte) != 0) {
+                        g2D.drawLine(endX, squareY + DOOR_LENGTH*2, endX, endY - DOOR_LENGTH*2);
+                    }
+                    if ((roomConnections & Direction.SOUTH.directionByte) != 0) {
+                        g2D.drawLine(squareX + DOOR_LENGTH*2, endY, endX - DOOR_LENGTH*2, endY);
+                    }
+                    if ((roomConnections & Direction.WEST.directionByte) != 0) {
+                        g2D.drawLine(squareX, squareY + DOOR_LENGTH*2, squareX, endY - DOOR_LENGTH*2);
+                    }
+                } else if(currentRoom.hasEnemyOf(Alliance.PARTY) && currentRoom.isVisible()){
+                    g2D.setColor(ENEMY_NPC_COLOR);
+                    g2D.fillOval(npcX, npcY, NPC_SIZE, NPC_SIZE);
+                } else if(currentRoom.hasAllyOf(Alliance.PARTY) && currentRoom.isVisible()) {
+                    g2D.setColor(PLAYER_COLOR);
+                    g2D.fillOval(npcX, npcY, NPC_SIZE, NPC_SIZE);
+                }else if(currentRoom.hasAllyOf(Alliance.NEUTRAL) && currentRoom.isVisible()){
+                        g2D.setColor(NEUTRAL_NPC_COLOR);
+                        g2D.fillOval(npcX, npcY, NPC_SIZE, NPC_SIZE);
+                    }
             }
         }
     }
@@ -182,10 +221,10 @@ public class MapPanel extends JPanel {
         c.gridx = 0;
         c.gridy = 1;
         c.insets = new Insets(0,10,5,5);
-        c.fill = GridBagConstraints.NONE;
+        c.fill = GridBagConstraints.BOTH;
         c.anchor = GridBagConstraints.CENTER;
-        c.weightx = 1;
-        c.weighty = 1;
+        c.weightx = 0.5;
+        c.weighty = 0.5;
         c.gridheight = 1;
         c.gridwidth = 1;
     }
