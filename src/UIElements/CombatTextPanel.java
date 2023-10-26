@@ -8,6 +8,7 @@ public class CombatTextPanel extends JTextArea {
     private GridBagConstraints c;
     private static final int SIZE = 50;
     private static final Font MAIN_FONT = new Font("MONOSPACED", Font.PLAIN, 18);
+
     public CombatTextPanel(){
         super("THIS WILL BE COMBAT TEXT",SIZE,SIZE);
         this.setBorder(new MatteBorder(5,5,5,5,Color.BLACK));
@@ -17,6 +18,7 @@ public class CombatTextPanel extends JTextArea {
         this.setFont(MAIN_FONT);
         initializeConstraints();
     }
+
     public void write(String str){
         this.append("\n"+str);
     }

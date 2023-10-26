@@ -17,7 +17,7 @@ public class PlayerInputPanel extends JPanel {
     private JPanel MovementPanel;
     private JButton AttackButton;
     private JButton InventoryButton;
-    private JButton MapButton;
+    private JButton SelectionButton;
     private WASDPanel DirectionalButtons;
     private boolean isSelectingUnit = false;
     public PlayerInputPanel(GameRenderer gameRenderer){
@@ -35,18 +35,19 @@ public class PlayerInputPanel extends JPanel {
 
         AttackButton = new JButton("Attack");
         InventoryButton = new JButton("Inventory");
-        MapButton = new JButton("Map");
+        SelectionButton = new JButton("Select");
         DirectionalButtons = new WASDPanel(this);
 
         AttackButton.setBackground(Color.WHITE);
         InventoryButton.setBackground(Color.WHITE);
-        MapButton.setBackground(Color.WHITE);
+        SelectionButton.setBackground(Color.WHITE);
 
         AttackButton.addActionListener(e -> buttonPressed(Command.ATTACK, ""));
+        SelectionButton.addActionListener(e -> buttonPressed(Command.MOVE_CURSOR, "1"));
 
         CombatPanel.add(AttackButton);
         CombatPanel.add(InventoryButton);
-        CombatPanel.add(MapButton);
+        CombatPanel.add(SelectionButton);
         CombatPanel.add(DirectionalButtons);
         CombatPanel.setBackground(Color.BLACK);
 

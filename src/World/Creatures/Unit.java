@@ -158,7 +158,7 @@ public class Unit {
         return _inventory;
     }
     public String toString(){
-        return _name;
+        return _name + (isDead()? " DEAD" : "");
     }
     public String toStringDetailed(){
         String output = _name + " " + _currentHealth + " hp " + (isDead()? "DEAD" : "") +

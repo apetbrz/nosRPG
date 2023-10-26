@@ -2,5 +2,8 @@ package Enums;
 
 public enum Command {
     MOVE,
-    SELECTION, ATTACK
+    ATTACK,
+    SELECTION,
+    MOVE_CURSOR,
+    INSPECT
 }

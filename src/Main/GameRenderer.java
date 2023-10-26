@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 
 import Enums.Command;
-import Enums.Direction;
 import Lang.Toolbox;
 import UIElements.*;
 
@@ -70,7 +69,7 @@ public class GameRenderer extends JFrame {
     }
 
     private void updateCombatPanel(){
-        _combatPanel.setText(_gameMaster.renderCombatInfo());
+        _combatPanel.setText(_gameMaster.getCombatPanelText());
     }
 
     public void initialize(GameMaster game){
